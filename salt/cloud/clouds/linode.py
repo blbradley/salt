@@ -480,12 +480,16 @@ def create(vm_):
         log.debug('Creating disks for {0}'.format(name))
         root_disk_id = create_disk_from_distro(vm_, node_id)['DiskID']
         swap_disk_id = create_swap_disk(vm_, node_id)['DiskID']
+        kernel_id = vm_.get('kernel_id')
 
         # Create a ConfigID using disk ids
-        config_id = create_config(kwargs={'name': name,
-                                          'linode_id': node_id,
-                                          'root_disk_id': root_disk_id,
-                                          'swap_disk_id': swap_disk_id})['ConfigID']
+        config_id = create_config(kwargs={
+          'name': name,
+          'linode_id': node_id,
+          'root_disk_id': root_disk_id,
+          'swap_disk_id': swap_disk_id,
+          'kernel_id': kernel_id,
+        })['ConfigID']
 
     # Boot the Linode
     boot(kwargs={'linode_id': node_id,
